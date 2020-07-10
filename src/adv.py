@@ -1,9 +1,10 @@
+import textwrap
 from room import Room
 from player import Player
 
 # Declare all the rooms
 
-rooms = {
+room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
@@ -34,22 +35,44 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-#
-# Main
-#
 
-# Make a new player object that is currently in the 'outside' room.
+player = Player("Kelli", "outside")
 
-player = Player("Kelli", "Outside Cave Entrance")
+play = True
 
-# Write a loop that:
-while play = True:
-    print(f"You are currently in room {player.current_room}")
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+while play == True:
+
+    player_current_room = room[player.current_room]
+
+    print(f"\nYou are currently in the {player_current_room.name}")
+    print(f"{player_current_room.description}\n")
+    
+    direction = input("Enter movement 'n' 'e' 's' or 'w' or press 'q' to quit:\n")
+    
+    if direction == 'q':
+        play = False
+
+    elif direction == 'n':
+        if player_current_room.s_to:
+            player.current_room = player_current_room.s_to
+        print("You lost? There's nothing out there. Try a different direction \n")
+
+    elif direction == 'e':
+        if player_current_room.w_to:
+            player.current_room = player_current_room.w_to
+        print("You lost? There's nothing out there. Try a different direction \n")
+
+    elif direction == 's':
+        if player_current_room.n_to:
+            player.current_room = player_current_room.n_to
+        print("You lost? There's nothing out there. Try a different direction \n")
+
+    elif direction == 'w':
+        if player_current_room.e_to:
+            player.current_room = player_current_room.e_to
+        print("You lost? There's nothing out there. Try a different direction \n")
+    
+    else:
+        print("Follow the damn directions")
+
+    
